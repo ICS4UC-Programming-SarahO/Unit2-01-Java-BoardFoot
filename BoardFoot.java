@@ -1,78 +1,68 @@
 import java.util.Scanner;
 
 /**
- * This program calculates the length of a board in inches required to make
- * one board foot given the width and height in inches.
- *
- * @author Sarah Ouamou
+ * Calculates the length of a board needed to make 1 board foot.
+ * @author  Sarah Ouamou
  * @version 1.0
- * @since 2026-10-22
+ * @since   2026-10-26
  */
 public final class BoardFoot {
 
+    /** value given to us by teacher 144 inches cubes i wish i knew wth this meant */
+    private static final double BOARD_FOOT_VOLUME = 144.0;
+
     /**
-     * Private constructor to satisfy checkstyle utility class rule.
+     * Private constructor to prevent instantiation of utility class, 
+     * no i dont know what this means either but it was in the example code so i put it here
      */
     private BoardFoot() {
-        // Prevent instantiation
     }
 
     /**
-     * Function to calculate length given width and height.
+     * Calculates the required length for 
+     * 1 board foot based on the given width and height.
      *
      * @param width  the width in inches
      * @param height the height in inches
-     * @return required length in inches
+     * @return the required length in inches
      */
-    public static double calculateBoardFoot(final double width,
-                                            final double height) {
-        // The formula for calculating the length of a board in inches
-        return 144.0 / (width * height);
+    public static double calculateBoardFoot(final double width, 
+            final double height) {
+        /* Calculate the required length for 1 board foot */
+        return BOARD_FOOT_VOLUME / (width * height);
     }
 
     /**
-     * Main entry point of the program.
+     * Main entry point for user interaction and output.
      *
      * @param args command line arguments
      */
     public static void main(final String[] args) {
-        // Create a Scanner object to read user input
-        Scanner scanner = new Scanner(System.in);
-
-        // Prompt the user to enter the width
-        System.out.print("Enter width: ");
-        // Read the width input from the user
-        String wInput = scanner.nextLine();
-        // Prompt the user to enter the height
-        System.out.print("Enter height: ");
-        // Read the height input from the user
-        String hInput = scanner.nextLine();
-        // Use a try-catch block to handle potential input errors
-
+        final Scanner scanner = new Scanner(System.in);
+        // try catch block to handle invalid input when parsing double values
         try {
-            // Parse the input strings to double values
-            double width = Double.parseDouble(wInput);
-            // Parse the input strings to double values
-            double height = Double.parseDouble(hInput);
+            /* Get user input for width and height */
+            System.out.print("Enter your Width: ");
+            final double width = Double.parseDouble(scanner.nextLine());
+
+            System.out.print("Enter your Height: ");
+            final double height = Double.parseDouble(scanner.nextLine());
 
             if (width <= 0 || height <= 0) {
-                // If width/height is <= 0, print error message
-                System.out.println(
-                    "Error: Dimensions must be greater than zero."
-                );
+                /* If width or height is not positive, display an error message */
+                System.out.println("Enter a positive number for width and height!");
             } else {
-                // Calculate required length using calculateBoardFoot function
-                double length = calculateBoardFoot(width, height);
-                // Print the required length to the console
-                System.out.println(
-                    "The required length is " + length + " inches."
-                );
+                final double length = calculateBoardFoot(width, height);
+                // Display the calculated length formatted to two decimal places
+                System.out.printf("The length should be %.2f inches "
+                    + "to make 1 board foot.%n", length);
             }
         } catch (NumberFormatException e) {
-            // If the input cannot be parsed to a double, print error message
-            System.out.println("Error: Please enter valid numbers.");
+            // Handle the case where the input is not a valid number
+            System.out.println("Error: Invalid input. "
+                    + "Please enter valid integers.");
+        } finally {
+            scanner.close();
         }
-        // Close the scanner
-        scanner.close();
     }
 }
